@@ -13,4 +13,9 @@ module.exports = {
     const posts = await Promise.all(postsIds.map((id) => postService.getPostById(id)));
     res.status(200).json(posts);
   },
+  getPostById: async (req, res) => {
+    const { id } = req.params;
+    const post = await postService.getPostById(id);
+    res.status(200).json(post);
+  },
 };

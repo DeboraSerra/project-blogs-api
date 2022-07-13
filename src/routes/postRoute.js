@@ -10,4 +10,7 @@ post.route('/')
   .post(postController.createPost)
   .get(postController.getPosts);
 
+post.route('/:id')
+  .get(postController.getPostById);
+
 module.exports = post;
