@@ -11,7 +11,6 @@ app.use(express.json());
 
 app.use('/login', loginRoute);
 
-
 app.use(errorMiddleware);
 
 // ...

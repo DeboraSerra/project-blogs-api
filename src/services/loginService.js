@@ -7,7 +7,7 @@ module.exports = {
     const schema = Joi.string().required();
     const result = schema.validate(str);
     if (result.isJoi) {
-      const error = new Error('Token not found')
+      const error = new Error('Token not found');
       error.statusCode = 401;
       throw error;
     }
@@ -37,15 +37,15 @@ module.exports = {
     return data;
   },
   getByEmail: async ({ email, password }) => {
-    if (!email) {
-      const error = new Error('Invalid fields');
+    if (!email || !password) {
+      const error = new Error('Some required fields are missing');
       error.statusCode = 400;
       throw error;
     }
     const user = await models.User.findOne({
       where: { email },
       raw: true,
-    })
+    });
     if (!user || user.password !== password) {
       const error = new Error('Invalid fields');
       error.statusCode = 400;
@@ -53,5 +53,5 @@ module.exports = {
     }
     const { password: pass, ...newUser } = user;
     return newUser;
-  }
+  },
 };

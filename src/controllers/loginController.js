@@ -7,5 +7,5 @@ module.exports = {
     const userByEmail = await loginService.getByEmail(joiValid);
     const token = await loginService.makeToken(userByEmail);
     res.status(200).json({ token });
-  }
-}
+  },
+};
