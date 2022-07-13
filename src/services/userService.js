@@ -37,4 +37,17 @@ module.exports = {
     const users = await models.User.findAll({ raw: true });
     return users;
   },
+  getById: async (id) => {
+    const user = await models.User.findOne({
+      where: { id },
+      raw: true,
+    });
+    if (!user) {
+      const error = new Error('User does not exist');
+      error.statusCode = 404;
+      throw error;
+    }
+    const { password, ...newUser } = user;
+    return newUser;
+  },
 };

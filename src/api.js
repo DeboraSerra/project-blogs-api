@@ -14,8 +14,6 @@ app.use(express.json());
 app.use('/login', loginRoute);
 app.use('/user', userRoute);
 
-app.use(tokenMiddleware);
-
 app.use(errorMiddleware);
 
 // ...

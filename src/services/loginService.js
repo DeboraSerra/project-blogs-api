@@ -11,8 +11,7 @@ module.exports = {
       error.statusCode = 401;
       throw error;
     }
-    const [, token] = result.value.split(' ');
-    return token;
+    return result.value;
   },
   validateLogin: async (obj) => {
     const schema = Joi.object({

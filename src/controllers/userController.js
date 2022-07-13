@@ -13,4 +13,9 @@ module.exports = {
     const users = await userService.getUsers();
     res.status(200).json(users);
   },
+  getById: async (req, res) => {
+    const { id } = req.params;
+    const user = await userService.getById(id);
+    res.status(200).json(user);
+  },
 };
