@@ -1,6 +1,10 @@
 const { DataTypes } = require('sequelize');
 
 const attributes = {
+  id: {
+    primaryKey: true,
+    type: DataTypes.INTEGER,
+  },
   displayName: {
     type: DataTypes.STRING,
   },
