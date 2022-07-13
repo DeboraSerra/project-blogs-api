@@ -38,7 +38,7 @@ module.exports = {
       raw: true,
       attributes: {
         exclude: ['password'],
-      }
+      },
     });
     return users;
   },

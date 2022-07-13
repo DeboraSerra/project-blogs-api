@@ -9,5 +9,5 @@ module.exports = {
   getCats: async (_req, res) => {
     const cats = await categoryService.getCats();
     res.status(200).json(cats);
-  }
+  },
 };

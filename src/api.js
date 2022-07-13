@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/categories', categoryRoute)
+app.use('/categories', categoryRoute);
 app.use('/login', loginRoute);
 app.use('/user', userRoute);
 
