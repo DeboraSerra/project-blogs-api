@@ -1,8 +1,8 @@
 const Joi = require('joi');
-const models = require('../database/models');
 const Sequelize = require('sequelize');
-
+const models = require('../database/models');
 const config = require('../database/config/config');
+
 const sequelize = new Sequelize(config.development);
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
     }
     return result.value;
   },
-  createPost: async ({ id, title, content, categoryIds }) => {
+  validateCatIds: async (categoryIds) => {
     const catExists = await Promise.all(
       categoryIds.map((catId) => models.Category
         .findOne({ where: { id: catId } }, { raw: true })),
@@ -30,18 +30,35 @@ module.exports = {
       error.statusCode = 400;
       throw error;
     }
+  },
+  createPost: async ({ id, title, content, categoryIds }) => {
     const result = await sequelize.transaction(async (t) => {
       const post = await models.BlogPost.create({
-        userId: id, title, content,
+        userId: id, title, content, published: new Date(), updated: new Date(),
       }, { transaction: t, raw: true });
-      console.log(post)
       await Promise.all(categoryIds.map((catId) => (
         models.PostCategory.create({ postId: post.null, categoryId: catId }, {
           transaction: t, raw: true,
         })
       )));
       return { ...post.dataValues, id: post.null };
-    })
+    });
     return result;
-  }
-}
+  },
+  getPosts: async () => {
+    const posts = await models.BlogPost.findAll({
+      include: [
+        {
+          model: models.User,
+          as: 'user',
+          attributes: { exclude: ['password'] },
+          through: { attributes: [] },
+        },
+        { model: models.Category, as: 'categories', through: { attributes: [] } },
+      ],
+      raw: true,
+    });
+    console.log(posts);
+    return posts;
+  },
+};

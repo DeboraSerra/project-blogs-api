@@ -4,7 +4,7 @@ const tokenMiddleware = require('../middlewares/tokenMiddleware');
 
 const cat = Router();
 
-cat.use(tokenMiddleware)
+cat.use(tokenMiddleware);
 
 cat.route('/')
   .post(categoryController.createCat)

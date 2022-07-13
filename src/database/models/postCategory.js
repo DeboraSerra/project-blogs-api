@@ -14,7 +14,7 @@ const attributes = {
 
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
-  const PostCategory = sequelize.define('PostCategory', attributes, {
+  const PostCategory = sequelize.define('PostCategory', {}, {
     timestamps: false,
     tableName: 'PostCategories',
   });
@@ -23,11 +23,13 @@ module.exports = (sequelize) => {
       through: PostCategory,
       foreignKey: 'categoryId',
       otherKey: 'postId',
+      as: 'posts',
     });
     models.BlogPost.belongsToMany(models.Category, {
       through: PostCategory,
       foreignKey: 'postId',
       otherKey: 'categoryId',
+      as: 'categories'
     });
   }
   return PostCategory;

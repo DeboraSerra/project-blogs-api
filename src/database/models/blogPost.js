@@ -15,21 +15,20 @@ const attributes = {
     type: DataTypes.INTEGER,
     foreignKey: true,
   },
-  createdAt: {
+  published: {
     allowNull: false,
     type: DataTypes.DATE,
-    field: 'published',
   },
-  updatedAt: {
+  updated: {
     allowNull: false,
     type: DataTypes.DATE,
-    field: 'updated',
   }
 }
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
   const BlogPost = sequelize.define('BlogPost', attributes, {
     tableName: 'BlogPosts',
+    timestamps: false,
   });
   BlogPost.associate = (models) => {
     BlogPost.belongsTo(models.User, {

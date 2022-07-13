@@ -4,9 +4,10 @@ const tokenMiddleware = require('../middlewares/tokenMiddleware');
 
 const post = Router();
 
-post.use(tokenMiddleware)
+post.use(tokenMiddleware);
 
 post.route('/')
-  .post(postController.createPost);
+  .post(postController.createPost)
+  .get(postController.getPosts);
 
 module.exports = post;
