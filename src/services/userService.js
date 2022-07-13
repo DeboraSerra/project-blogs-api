@@ -34,7 +34,12 @@ module.exports = {
     return newUser;
   },
   getUsers: async () => {
-    const users = await models.User.findAll({ raw: true });
+    const users = await models.User.findAll({
+      raw: true,
+      attributes: {
+        exclude: ['password'],
+      }
+    });
     return users;
   },
   getById: async (id) => {
