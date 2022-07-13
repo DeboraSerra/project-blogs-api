@@ -20,7 +20,8 @@ module.exports = {
       password: Joi.string().min(6).required(),
     });
     const result = schema.validate(obj);
-    if (result.isJoi) {
+    console.log(result.error);
+    if (result.error) {
       const error = new Error('Some required fields are missing');
       error.statusCode = 400;
       throw error;
@@ -37,11 +38,6 @@ module.exports = {
     return data;
   },
   getByEmail: async ({ email, password }) => {
-    if (!email || !password) {
-      const error = new Error('Some required fields are missing');
-      error.statusCode = 400;
-      throw error;
-    }
     const user = await models.User.findOne({
       where: { email },
       raw: true,
