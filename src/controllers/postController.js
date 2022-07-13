@@ -18,4 +18,10 @@ module.exports = {
     const post = await postService.getPostById(id);
     res.status(200).json(post);
   },
+  deletePost: async (req, res) => {
+    const { id } = req.params;
+    const { id: userId } = req.user;
+    const post = await postService.deletePost(id, userId);
+    res.status(204).end();
+  }
 };

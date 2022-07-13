@@ -11,6 +11,7 @@ post.route('/')
   .get(postController.getPosts);
 
 post.route('/:id')
-  .get(postController.getPostById);
+  .get(postController.getPostById)
+  .delete(postController.deletePost);
 
 module.exports = post;

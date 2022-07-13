@@ -73,4 +73,20 @@ module.exports = {
     post.categories = categories;
     return post;
   },
+  deletePost: async (id, userId) => {
+    const post = await models.BlogPost.findOne({ where: { id }, raw: true });
+    if (!post) {
+      const error = new Error('Post does not exist');
+      error.statusCode = 404;
+      throw error;
+    }
+    if (post.userId !== userId) {
+      const error = new Error('Unauthorized user');
+      error.statusCode = 401;
+      throw error;
+    }
+    await models.PostCategory.destroy({ where: { postId: id } });
+    await models.BlogPost.destroy({ where: { id }, raw: true });
+    return post;
+  },
 };
