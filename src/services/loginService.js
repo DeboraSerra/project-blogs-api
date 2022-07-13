@@ -6,12 +6,12 @@ module.exports = {
   validateToken: async (str) => {
     const schema = Joi.string().required();
     const result = schema.validate(str);
-    if (result.isJoi) {
+    if (result.error) {
       const error = new Error('Token not found');
       error.statusCode = 401;
       throw error;
     }
-    const [, token] = result.split(' ');
+    const [, token] = result.value.split(' ');
     return token;
   },
   validateLogin: async (obj) => {
@@ -20,7 +20,6 @@ module.exports = {
       password: Joi.string().min(6).required(),
     });
     const result = schema.validate(obj);
-    console.log(result.error);
     if (result.error) {
       const error = new Error('Some required fields are missing');
       error.statusCode = 400;

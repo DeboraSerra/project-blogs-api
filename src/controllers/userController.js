@@ -9,4 +9,8 @@ module.exports = {
     const token = await loginService.makeToken(user);
     res.status(201).json({ token });
   },
+  getUsers: async (_req, res) => {
+    const users = await userService.getUsers();
+    res.status(200).json(users);
+  },
 };

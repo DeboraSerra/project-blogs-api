@@ -33,4 +33,8 @@ module.exports = {
     const { password: pass, ...newUser } = user;
     return newUser;
   },
+  getUsers: async () => {
+    const users = await models.User.findAll({ raw: true });
+    return users;
+  },
 };
