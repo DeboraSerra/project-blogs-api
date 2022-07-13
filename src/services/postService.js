@@ -47,7 +47,7 @@ module.exports = {
   },
   getPosts: async () => {
     const posts = await models.BlogPost.findAll({ attribute: { include: ['id'] }, raw: true });
-    const postsId = posts.map((item) => item.id)
+    const postsId = posts.map((item) => item.id);
     return postsId;
   },
   getPostById: async (id) => {
@@ -57,12 +57,15 @@ module.exports = {
       raw: true,
       attributes: { exclude: ['password'] },
     });
-    const categoriesIds = await models.PostCategory.findAll({ where: { postId: post.id }, raw: true });
+    const categoriesIds = await models.PostCategory.findAll({
+      where: { postId: post.id },
+      raw: true,
+    });
     const categories = await Promise.all(categoriesIds.map(({ categoryId }) => (
       models.Category.findOne({ where: { id: categoryId }, raw: true })
     )));
     post.user = user;
     post.categories = categories;
     return post;
-  }
+  },
 };
