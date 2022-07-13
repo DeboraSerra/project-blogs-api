@@ -46,19 +46,23 @@ module.exports = {
     return result;
   },
   getPosts: async () => {
-    const posts = await models.BlogPost.findAll({
-      include: [
-        {
-          model: models.User,
-          as: 'user',
-          attributes: { exclude: ['password'] },
-          through: { attributes: [] },
-        },
-        { model: models.Category, as: 'categories', through: { attributes: [] } },
-      ],
-      raw: true,
-    });
-    console.log(posts);
-    return posts;
+    const posts = await models.BlogPost.findAll({ attribute: { include: ['id'] }, raw: true });
+    const postsId = posts.map((item) => item.id)
+    return postsId;
   },
+  getPostById: async (id) => {
+    const post = await models.BlogPost.findOne({ where: { id }, raw: true });
+    const user = await models.User.findOne({
+      where: { id: post.userId },
+      raw: true,
+      attributes: { exclude: ['password'] },
+    });
+    const categoriesIds = await models.PostCategory.findAll({ where: { postId: post.id }, raw: true });
+    const categories = await Promise.all(categoriesIds.map(({ categoryId }) => (
+      models.Category.findOne({ where: { id: categoryId }, raw: true })
+    )));
+    post.user = user;
+    post.categories = categories;
+    return post;
+  }
 };

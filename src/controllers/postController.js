@@ -9,7 +9,8 @@ module.exports = {
     res.status(201).json(post);
   },
   getPosts: async (_req, res) => {
-    const posts = await postService.getPosts();
+    const postsIds = await postService.getPosts();
+    const posts = await Promise.all(postsIds.map((id) => postService.getPostById(id)));
     res.status(200).json(posts);
   },
 };
