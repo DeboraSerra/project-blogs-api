@@ -32,4 +32,10 @@ module.exports = {
     const updatedPost = await postService.getPostById(post);
     res.status(200).json(updatedPost);
   },
+  queryPost: async (req, res) => {
+    const { q } = req.query;
+    const postsId = await postService.queryPost(q);
+    const posts = await Promise.all(postsId.map((id) => postService.getPostById(id)));
+    res.status(200).json(posts);
+  },
 };

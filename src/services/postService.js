@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const models = require('../database/models');
 const config = require('../database/config/config');
 
@@ -120,5 +121,25 @@ module.exports = {
       raw: true,
     });
     return post;
+  },
+  queryPost: async (query) => {
+    const posts = await models.BlogPost.findAll({
+      where: {
+        [Op.or]: [
+          {
+            title: {
+              [Op.like]: `%${query}%`,
+            }
+          },
+          {
+            content: {
+              [Op.like]: `%${query}%`,
+            }
+          }
+        ]
+      }
+    })
+    const postsId = posts.map(({ id }) => id);
+    return postsId;
   },
 };

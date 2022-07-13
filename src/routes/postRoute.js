@@ -10,6 +10,9 @@ post.route('/')
   .post(postController.createPost)
   .get(postController.getPosts);
 
+post.route('/search')
+  .get(postController.queryPost);
+
 post.route('/:id')
   .get(postController.getPostById)
   .delete(postController.deletePost)
