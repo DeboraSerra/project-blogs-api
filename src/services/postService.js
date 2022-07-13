@@ -5,6 +5,17 @@ const config = require('../database/config/config');
 
 const sequelize = new Sequelize(config.development);
 
+const getCategories = async (post) => {
+  const categoriesIds = await models.PostCategory.findAll({
+    where: { postId: post.id },
+    raw: true,
+  });
+  const categories = await Promise.all(categoriesIds.map(({ categoryId }) => (
+    models.Category.findOne({ where: { id: categoryId }, raw: true })
+  )));
+  return categories;
+};
+
 module.exports = {
   validatePost: async (obj) => {
     const schema = Joi.object({
@@ -75,13 +86,7 @@ module.exports = {
       raw: true,
       attributes: { exclude: ['password'] },
     });
-    const categoriesIds = await models.PostCategory.findAll({
-      where: { postId: post.id },
-      raw: true,
-    });
-    const categories = await Promise.all(categoriesIds.map(({ categoryId }) => (
-      models.Category.findOne({ where: { id: categoryId }, raw: true })
-    )));
+    const categories = await getCategories(post);
     post.user = user;
     post.categories = categories;
     return post;
@@ -109,11 +114,11 @@ module.exports = {
       throw error;
     }
     const post = await models.BlogPost.update({
-      title, content, updated: new Date()
+      title, content, updated: new Date(),
     }, {
       where: { id },
       raw: true,
-    })
+    });
     return post;
   },
 };

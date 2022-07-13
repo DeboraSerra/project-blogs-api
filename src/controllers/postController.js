@@ -21,7 +21,7 @@ module.exports = {
   deletePost: async (req, res) => {
     const { id } = req.params;
     const { id: userId } = req.user;
-    const post = await postService.deletePost(id, userId);
+    await postService.deletePost(id, userId);
     res.status(204).end();
   },
   updatePost: async (req, res) => {
