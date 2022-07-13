@@ -4,8 +4,10 @@ const tokenMiddleware = require('../middlewares/tokenMiddleware');
 
 const cat = Router();
 
+cat.use(tokenMiddleware)
+
 cat.route('/')
-  .post(tokenMiddleware, categoryController.createCat)
-  .get(tokenMiddleware, categoryController.getCats);
+  .post(categoryController.createCat)
+  .get(categoryController.getCats);
 
 module.exports = cat;

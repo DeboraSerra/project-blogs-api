@@ -15,13 +15,15 @@ const attributes = {
     type: DataTypes.INTEGER,
     foreignKey: true,
   },
-  published: {
+  createdAt: {
     allowNull: false,
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
+    field: 'published',
   },
-  updated: {
+  updatedAt: {
     allowNull: false,
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
+    field: 'updated',
   }
 }
 /** @param {import('sequelize').Sequelize} sequelize */
