@@ -11,4 +11,8 @@ module.exports = {
     console.log(cat);
     return cat;
   },
+  getCats: async () => {
+    const cats = await models.Category.findAll({ raw: true });
+    return cats;
+  }
 };

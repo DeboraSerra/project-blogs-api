@@ -5,6 +5,7 @@ const tokenMiddleware = require('../middlewares/tokenMiddleware');
 const cat = Router();
 
 cat.route('/')
-  .post(tokenMiddleware, categoryController.createCat);
+  .post(tokenMiddleware, categoryController.createCat)
+  .get(tokenMiddleware, categoryController.getCats);
 
 module.exports = cat;
