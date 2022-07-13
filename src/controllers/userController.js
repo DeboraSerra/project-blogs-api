@@ -18,4 +18,10 @@ module.exports = {
     const user = await userService.getById(id);
     res.status(200).json(user);
   },
+  deleteUser: async (req, res) => {
+    const { id } = req.user;
+    await userService.deleteUser(id);
+    req.user = '';
+    res.status(204).end();
+  },
 };

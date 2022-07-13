@@ -8,6 +8,9 @@ user.route('/')
   .post(userController.createUser)
   .get(tokenMiddleware, userController.getUsers);
 
+user.route('/me')
+  .delete(tokenMiddleware, userController.deleteUser);
+
 user.route('/:id')
   .get(tokenMiddleware, userController.getById);
 

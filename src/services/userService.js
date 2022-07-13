@@ -55,4 +55,12 @@ module.exports = {
     const { password, ...newUser } = user;
     return newUser;
   },
+  deleteUser: async (id) => {
+    const post = await models.BlogPost.findAll({ where: { userId: id } });
+    console.log(post);
+    await Promise.all(post.map(({ id: postId }) => models.PostCategory
+      .destroy({ where: { postId } })));
+    await models.BlogPost.destroy({ where: { userId: id } });
+    await models.User.destroy({ where: { id } });
+  },
 };
