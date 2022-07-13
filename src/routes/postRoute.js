@@ -12,6 +12,7 @@ post.route('/')
 
 post.route('/:id')
   .get(postController.getPostById)
-  .delete(postController.deletePost);
+  .delete(postController.deletePost)
+  .put(postController.updatePost);
 
 module.exports = post;

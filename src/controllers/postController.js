@@ -23,5 +23,13 @@ module.exports = {
     const { id: userId } = req.user;
     const post = await postService.deletePost(id, userId);
     res.status(204).end();
-  }
+  },
+  updatePost: async (req, res) => {
+    const { id } = req.params;
+    const { id: userId } = req.user;
+    const JoiValid = await postService.validateUpdatePost(req.body);
+    const [post] = await postService.updatePost({ ...JoiValid, id, userId });
+    const updatedPost = await postService.getPostById(post);
+    res.status(200).json(updatedPost);
+  },
 };

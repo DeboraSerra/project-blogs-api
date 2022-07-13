@@ -20,6 +20,19 @@ module.exports = {
     }
     return result.value;
   },
+  validateUpdatePost: async (obj) => {
+    const schema = Joi.object({
+      title: Joi.string().required(),
+      content: Joi.string().required(),
+    });
+    const result = schema.validate(obj);
+    if (result.error) {
+      const error = new Error('Some required fields are missing');
+      error.statusCode = 400;
+      throw error;
+    }
+    return result.value;
+  },
   validateCatIds: async (categoryIds) => {
     const catExists = await Promise.all(
       categoryIds.map((catId) => models.Category
@@ -87,6 +100,20 @@ module.exports = {
     }
     await models.PostCategory.destroy({ where: { postId: id } });
     await models.BlogPost.destroy({ where: { id }, raw: true });
+    return post;
+  },
+  updatePost: async ({ title, content, id, userId }) => {
+    if (Number(id) !== userId) {
+      const error = new Error('Unauthorized user');
+      error.statusCode = 401;
+      throw error;
+    }
+    const post = await models.BlogPost.update({
+      title, content, updated: new Date()
+    }, {
+      where: { id },
+      raw: true,
+    })
     return post;
   },
 };
