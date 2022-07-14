@@ -136,7 +136,7 @@ module.exports = {
               [Op.like]: `%${query}%`,
             },
           },
-        ]
+        ],
       },
     });
     const postsId = posts.map(({ id }) => id);
