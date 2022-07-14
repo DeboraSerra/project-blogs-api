@@ -129,16 +129,16 @@ module.exports = {
           {
             title: {
               [Op.like]: `%${query}%`,
-            }
+            },
           },
           {
             content: {
               [Op.like]: `%${query}%`,
-            }
-          }
+            },
+          },
         ]
-      }
-    })
+      },
+    });
     const postsId = posts.map(({ id }) => id);
     return postsId;
   },
